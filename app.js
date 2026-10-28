@@ -3,6 +3,7 @@
   "use strict";
 
   const S = window.SURVEY;
+  const ILL = window.ILLUSTRATIONS || null;
   const SCRIPT_URL = ((window.SURVEY_CONFIG || {}).scriptUrl || "").trim();
 
   const KEY_PROGRESS = "ksbds-dang-lam-v1";
@@ -238,17 +239,55 @@
     if (focusTarget) focusTarget.focus({ preventScroll: true });
   }
 
-  /* ---------- Thanh tiến trình ---------- */
+  /* ---------- Hình minh hoạ và hiệu ứng ---------- */
+  function illustration(name, arg) {
+    if (!ILL || !ILL[name]) return null;
+    const card = el("div", { class: "ill-card" });
+    card.innerHTML = ILL[name](arg);
+    return card;
+  }
+
+  function confetti(count) {
+    if (reduceMotion) return;
+    const layer = el("div", { class: "confetti", "aria-hidden": "true" });
+    const colors = ["var(--s1)", "var(--s2)", "var(--s3)", "var(--accent)"];
+    for (let i = 0; i < count; i++) {
+      const piece = el("i");
+      piece.style.left = Math.random() * 100 + "%";
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDelay = Math.random() * 0.5 + "s";
+      piece.style.animationDuration = 1.8 + Math.random() * 1.4 + "s";
+      piece.style.setProperty("--dx", Math.round(Math.random() * 160 - 80) + "px");
+      piece.style.setProperty("--r", Math.round(Math.random() * 720 - 360) + "deg");
+      if (i % 3 === 0) piece.style.borderRadius = "50%";
+      layer.append(piece);
+    }
+    document.body.append(layer);
+    setTimeout(() => layer.remove(), 4000);
+  }
+
+  function setStageColor(g) {
+    document.body.dataset.stage = String(g || 1);
+  }
+
+  /* ---------- Thanh tiến trình: con đường qua 3 giai đoạn ---------- */
   function buildProgress() {
     const segs = el("ol", { class: "segs" }, [1, 2, 3].map((g) =>
       el("li", { class: "seg", "data-g": g },
-        el("div", { class: "bar" }, el("span", { class: "fill" })),
+        el("div", { class: "track" },
+          el("span", { class: "node", "aria-hidden": "true" }, String(g)),
+          el("div", { class: "bar" }, el("span", { class: "fill" }))),
         el("div", { class: "lbl" }, el("small", null, "Giai đoạn " + g), el("b", null, S.cacGiaiDoan[g])))));
-    progressEl.append(segs, el("p", { class: "sr-only", id: "progressText", "aria-live": "polite" }));
+    const finishFlag = el("div", { class: "finish", "aria-hidden": "true" });
+    finishFlag.innerHTML = '<svg viewBox="0 0 20 20" width="20" height="20"><path d="M5 2.5v15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 3.5h10l-2.5 3.5L16 10.5H6z" fill="currentColor"/></svg>';
+    progressEl.append(el("div", { class: "route" }, segs, finishFlag),
+      el("p", { class: "sr-only", id: "progressText", "aria-live": "polite" }));
   }
 
   function renderProgress(mode) {
     const cur = mode === "step" ? steps[state.pos].phan.giaiDoan : 0;
+    setStageColor(cur);
+    progressEl.querySelector(".finish").classList.toggle("done", mode === "result");
     progressEl.querySelectorAll(".seg").forEach((li) => {
       const g = Number(li.dataset.g);
       let fill = 0;
@@ -263,6 +302,7 @@
       }
       li.querySelector(".fill").style.width = fill * 100 + "%";
       li.classList.toggle("active", g === cur);
+      li.classList.toggle("done", fill >= 1);
     });
     const text = cur ? "Đang ở Giai đoạn " + cur + " – " + S.cacGiaiDoan[cur] : "";
     const sr = document.getElementById("progressText");
@@ -276,6 +316,7 @@
     const L = S.loiMoDau;
     const resumable = state.pos >= 0 || Object.keys(state.answers).length > 0;
     const screen = el("section", { class: "intro" },
+      illustration("intro"),
       el("p", { class: "kicker" }, "Khảo sát ẩn danh · " + S.thoiGian),
       el("h1", { class: "title title-xl", tabindex: "-1", "data-focus": true }, S.tieuDe),
       el("p", { class: "lead" }, L.chao),
@@ -301,11 +342,14 @@
 
   function showChapter(phan, dir) {
     const screen = el("section", { class: "chapter" },
+      illustration(phan.ma),
+      phan.dongVien && el("p", { class: "cheer" }, el("span", { "aria-hidden": "true" }, "🎉"), phan.dongVien),
       el("span", { class: "badge" }, phan.nhan),
       el("h2", { class: "title title-xl", tabindex: "-1", "data-focus": true }, phan.ten),
       phan.moTa && el("p", { class: "lead muted" }, phan.moTa));
     mount(screen, dir);
-    setNav({ back: true, label: "Tiếp tục", action: goNext });
+    setNav({ back: true, label: "Bắt đầu chặng này", action: goNext });
+    if (dir === "forward" && phan.dongVien) confetti(26);
   }
 
   function showQuestion(q, dir) {
@@ -623,16 +667,13 @@
   function showResult(giaiDoan, dir, alreadyDone) {
     view = "result";
     renderProgress("result");
+    setStageColor(giaiDoan);
     const R = S.ketQua;
     const info = R.giaiDoan[giaiDoan];
-    const tracker = el("ol", { class: "tracker", "aria-label": "Ba giai đoạn" }, [1, 2, 3].map((n) =>
-      el("li", { class: n < giaiDoan ? "past" : n === giaiDoan ? "current" : null, "aria-current": n === giaiDoan ? "step" : null },
-        el("span", { class: "dot" }, String(n)),
-        el("span", { class: "tname" }, S.cacGiaiDoan[n]))));
     const screen = el("section", { class: "result" },
+      illustration("result", giaiDoan),
       el("p", { class: "kicker" }, "Kết quả của bạn"),
       el("h1", { class: "title title-xl", tabindex: "-1", "data-focus": true }, "Bạn đang ở ", el("span", { class: "hl" }, info.ten)),
-      tracker,
       el("p", { class: "lead" }, info.moDau),
       el("h2", { class: "subhead" }, "Gợi ý cho bạn"),
       el("ol", { class: "tips" }, info.goiY.map((t) => el("li", null, t))),
@@ -642,6 +683,7 @@
     mount(screen, dir);
     setNav({ back: false, label: "Chia sẻ khảo sát cho bạn bè", action: share });
     if (alreadyDone) setStatus("done");
+    else confetti(80);
   }
 
   async function share() {
@@ -675,6 +717,11 @@
       progressEl.before(el("p", { class: "test-banner" }, "Bản chạy thử – chưa kết nối Google Sheets"));
     }
     buildProgress();
+    if (ILL) {
+      const city = el("div", { class: "bg-city", "aria-hidden": "true" });
+      city.innerHTML = ILL.skyline();
+      document.body.prepend(city);
+    }
 
     const done = storage.get(KEY_DONE);
     if (done && S.ketQua.giaiDoan[done.giaiDoan]) return showResult(done.giaiDoan, null, true);

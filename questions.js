@@ -78,6 +78,7 @@ window.SURVEY = {
       ma: "B",
       ten: "Phần B – Giai đoạn 1: Hiểu biết về ngành",
       nhan: "Giai đoạn 1",
+      dongVien: "Khởi động xong! Giờ vào chặng đầu tiên nhé.", // lời động viên ở màn mở đầu phần
       giaiDoan: 1,
       cauHoi: [
         { ma: "B1", loai: "traLoiNgan", tieuDe: "Khi mới vào năm 1, bạn hình dung học ngành BĐS ra trường sẽ làm công việc gì?" },
@@ -107,6 +108,7 @@ window.SURVEY = {
       ma: "C",
       ten: "Phần C – Giai đoạn 2: Chọn hướng",
       nhan: "Giai đoạn 2",
+      dongVien: "Xong 1/3 hành trình rồi!",
       giaiDoan: 2,
       cauHoi: [
         { ma: "C1", loai: "chon1", tieuDe: "Bạn đã có hướng nghề muốn theo chưa?",
@@ -144,6 +146,7 @@ window.SURVEY = {
       ma: "D",
       ten: "Phần D – Giai đoạn 3: Apply và đi làm",
       nhan: "Giai đoạn 3",
+      dongVien: "Đã đi được 2/3 chặng đường!",
       giaiDoan: 3,
       cauHoi: [
         { ma: "D1", loai: "chon1", tieuDe: "Bạn đã từng apply thực tập hoặc việc làm trong ngành BĐS chưa?",
@@ -177,6 +180,7 @@ window.SURVEY = {
       ma: "E",
       ten: "Phần E – Ưu tiên và nhu cầu hỗ trợ",
       nhan: "Chặng cuối",
+      dongVien: "Sắp tới đích rồi, chỉ còn vài câu nữa thôi!",
       giaiDoan: 3, // nằm chung đoạn cuối của thanh tiến trình
       cauHoi: [
         { ma: "E1", loai: "chonNhieu", toiDa: 3, tieuDe: "Trong các khó khăn dưới đây, khó khăn nào bạn thấy nặng nhất với mình?",
