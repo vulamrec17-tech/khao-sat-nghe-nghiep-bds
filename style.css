@@ -329,6 +329,16 @@ button { font: inherit; color: inherit; }
 textarea.field { min-height: 130px; }
 .other-input { margin: -2px 0 4px; }
 
+.per-option { display: grid; gap: 16px; }
+.per-option-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary-text);
+}
+.per-option .field { min-height: 96px; }
+
 .error { margin: 10px 0 0; color: var(--danger); font-size: 14.5px; font-weight: 500; }
 
 /* ---------- Nút điều hướng ---------- */

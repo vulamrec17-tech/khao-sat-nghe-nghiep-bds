@@ -16,7 +16,16 @@
    Rẽ nhánh:
      anKhi:      { cau: "B6", la: ["0"] }          → ẩn câu này nếu B6 chọn "0"
      chiHienKhi: { cau: "D1", la: ["Đã từng"] }    → chỉ hiện nếu D1 chọn "Đã từng"
+
+   Câu gõ chữ có moiLuaChonMotO: "C9" sẽ hiện một ô cho mỗi lựa chọn đã tick ở C9.
    ===================================================================== */
+
+// Danh sách vị trí, dùng chung cho B2 và C9. Sửa ở đây là đổi cả hai câu.
+const DS_VI_TRI = [
+  "Môi giới/kinh doanh", "Nghiên cứu thị trường", "Thẩm định giá", "Phát triển dự án", "Phân tích đầu tư",
+  "Quản lý dự án", "Quản lý vận hành tài sản/tòa nhà", "Marketing BĐS", "Pháp lý dự án",
+  "Phát triển mặt bằng cho chuỗi bán lẻ (site developer)", "Khác (ghi rõ)",
+];
 
 window.SURVEY = {
   tieuDe: "Hành trình định hướng nghề nghiệp ngành BĐS",
@@ -73,9 +82,7 @@ window.SURVEY = {
       cauHoi: [
         { ma: "B1", loai: "traLoiNgan", tieuDe: "Khi mới vào năm 1, bạn hình dung học ngành BĐS ra trường sẽ làm công việc gì?" },
         { ma: "B2", loai: "chonNhieu", tieuDe: "Hiện tại, bạn biết đến những vị trí nào dành cho người học BĐS?",
-          luaChon: ["Môi giới/kinh doanh", "Nghiên cứu thị trường", "Thẩm định giá", "Phát triển dự án", "Phân tích đầu tư",
-            "Quản lý dự án", "Quản lý vận hành tài sản/tòa nhà", "Marketing BĐS", "Pháp lý dự án",
-            "Phát triển mặt bằng cho chuỗi bán lẻ (site developer)", "Khác (ghi rõ)"] },
+          luaChon: DS_VI_TRI },
         { ma: "B3", loai: "thang5", tieuDe: "“Tôi có thể mô tả cụ thể một ngày làm việc của ít nhất 2 vị trí khác ngoài môi giới/kinh doanh.”" },
         { ma: "B4", loai: "chonNhieu", tieuDe: "Bạn đã tìm hiểu về ngành qua những nguồn nào?",
           luaChon: ["Giảng viên trên lớp", "Workshop/talkshow", "Câu lạc bộ", "Anh chị khóa trên", "Người đang đi làm trong ngành",
@@ -120,7 +127,16 @@ window.SURVEY = {
           luaChonDuyNhat: ["Chưa từng"] },
         { ma: "C7", loai: "chon1", tieuDe: "Khi cần hỏi về nghề, bạn có người đi trước trong ngành để hỏi không?",
           luaChon: ["Có, và hỏi thường xuyên", "Có, nhưng ngại hỏi", "Không có ai"] },
-        { ma: "C8", loai: "traLoiNgan", tieuDe: "Nếu có một anh/chị đi trước để hỏi, điều đầu tiên bạn muốn hỏi là gì?" },
+        { ma: "C9", loai: "chonNhieu", toiDa: 3, tieuDe: "Bạn muốn tìm hiểu kỹ hơn về những vị trí nào?",
+          luaChon: DS_VI_TRI },
+        { ma: "C10", loai: "chonNhieu", toiDa: 3, tieuDe: "Với vị trí đó, bạn muốn biết điều gì nhất?",
+          luaChon: ["Công việc cụ thể hằng ngày", "Kỹ năng và kiến thức cần có", "Cách bắt đầu vào nghề (thực tập, vị trí đầu tiên)",
+            "Lộ trình thăng tiến 3–5 năm", "Thu nhập và cách tính thu nhập", "Áp lực, mặt khó của công việc",
+            "Cân bằng công việc và cuộc sống", "Ai hợp và ai không hợp với nghề này"] },
+        // Mỗi vị trí chọn ở C9 có một ô riêng. Nếu bỏ qua C9 thì hiện một ô chung với tieuDeKhiKhongChon.
+        { ma: "C8", loai: "traLoiNgan", moiLuaChonMotO: "C9",
+          tieuDe: "Nếu được gặp một anh/chị đang làm vị trí bạn đã chọn, bạn muốn hỏi câu gì?",
+          tieuDeKhiKhongChon: "Nếu có một anh/chị đi trước để hỏi, điều đầu tiên bạn muốn hỏi là gì?" },
       ],
     },
 

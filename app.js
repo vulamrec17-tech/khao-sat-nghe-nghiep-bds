@@ -131,8 +131,27 @@
     return q.loai !== "thang5" && sourceOptions(q).some((o) => OTHER_RE.test(o));
   }
 
+  // Các lựa chọn đã tick ở câu nguồn (ví dụ C9), theo đúng thứ tự trong danh sách.
+  function perOptionLabels(q) {
+    const src = qById[q.moiLuaChonMotO];
+    const picked = answerOf(q.moiLuaChonMotO);
+    return Array.isArray(picked) ? sourceOptions(src).filter((o) => picked.includes(o)) : [];
+  }
+
+  function perOptionStore(q) {
+    const key = q.ma + "__theoLuaChon";
+    if (!state.answers[key]) state.answers[key] = {};
+    return state.answers[key];
+  }
+
+  function displayLabel(srcId, label) {
+    const otherText = (state.answers[srcId + "__ghiRo"] || "").trim();
+    return OTHER_RE.test(label) && otherText ? "Khác: " + otherText : label;
+  }
+
   function hintFor(q) {
     if (q.ghiChu) return q.ghiChu;
+    if (q.moiLuaChonMotO && perOptionLabels(q).length) return "Trả lời ngắn cho từng vị trí";
     if (q.loai === "chon1") return "Chọn 1 đáp án";
     if (q.loai === "chonNhieu") return q.toiDa ? "Chọn tối đa " + q.toiDa : "Chọn nhiều đáp án";
     if (q.loai === "thang5") return "Mức độ đồng ý của bạn";
@@ -292,20 +311,25 @@
   function showQuestion(q, dir) {
     const isLast = nextVisible(state.pos) === -1;
     const titleId = "qt-" + q.ma;
+    const labels = q.moiLuaChonMotO ? perOptionLabels(q) : [];
+    const title = q.moiLuaChonMotO && !labels.length ? q.tieuDeKhiKhongChon || q.tieuDe : q.tieuDe;
     const screen = el("section", { class: "question" },
       el("p", { class: "kicker" }, q.phan.ten),
-      el("h2", { class: "title", id: titleId, tabindex: "-1", "data-focus": true }, q.tieuDe),
+      el("h2", { class: "title", id: titleId, tabindex: "-1", "data-focus": true }, title),
       el("p", { class: "hint", id: "qh-" + q.ma }, hintFor(q)));
 
     const refresh = () => {
       if (isLast) return setNav({ back: true, label: "Gửi câu trả lời", action: () => finish(screen) });
-      const answered = hasValue(currentValue(q));
+      const answered = labels.length
+        ? labels.some((l) => hasValue(perOptionStore(q)[l]))
+        : hasValue(currentValue(q));
       setNav({ back: true, label: answered ? "Tiếp" : "Bỏ qua", ghost: !answered, action: goNext });
     };
 
     if (q.loai === "chon1" || q.loai === "thang5") screen.append(singleChoice(q, titleId, refresh, isLast));
     else if (q.loai === "chonNhieu") screen.append(...multiChoice(q, titleId, refresh));
     else if (q.loai === "email") screen.append(...emailField(q, titleId));
+    else if (labels.length) screen.append(perOptionFields(q, labels, refresh));
     else screen.append(textField(q, titleId, refresh));
 
     mount(screen, dir);
@@ -448,6 +472,19 @@
     return area;
   }
 
+  function perOptionFields(q, labels, refresh) {
+    const store = perOptionStore(q);
+    const wrap = el("div", { class: "per-option" });
+    labels.forEach((label) => {
+      const area = el("textarea", { class: "field", rows: "3", maxlength: "1000", placeholder: "Câu bạn muốn hỏi…" });
+      area.value = store[label] || "";
+      area.addEventListener("input", () => { store[label] = area.value; save(); refresh(); });
+      wrap.append(el("label", { class: "per-option-item" },
+        el("span", { class: "per-option-label" }, displayLabel(q.moiLuaChonMotO, label)), area));
+    });
+    return wrap;
+  }
+
   function emailField(q, titleId) {
     const input = el("input", {
       type: "email", class: "field", inputmode: "email", autocomplete: "email", maxlength: "254",
@@ -485,6 +522,18 @@
       if (!q || q.loai === "email") return;
       const visible = questionVisible(q);
       const v = currentValue(q);
+      if (q.moiLuaChonMotO) {
+        // Cột C8 cho ô chung, rồi mỗi lựa chọn của C9 một cột "C8 – <vị trí>".
+        const labels = visible ? perOptionLabels(q) : [];
+        const store = perOptionStore(q);
+        columns.push(q.ma);
+        values.push(!visible ? HIDDEN : labels.length ? "(trả lời theo vị trí)" : formatValue(q, v));
+        sourceOptions(qById[q.moiLuaChonMotO]).forEach((opt) => {
+          columns.push(q.ma + " – " + opt);
+          values.push(!visible ? HIDDEN : labels.includes(opt) ? (store[opt] || "").trim() : "");
+        });
+        return;
+      }
       columns.push(q.ma);
       values.push(!visible ? HIDDEN : formatValue(q, v));
       if (hasOtherOption(q)) {
