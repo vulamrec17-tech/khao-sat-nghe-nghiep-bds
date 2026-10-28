@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Bộ câu hỏi phỏng vấn 1-1 với anh chị trong ngành Bất động sản: bạn là ai, bạn muốn gì, làm sao để đạt được.">
+<title>Bộ câu hỏi phỏng vấn người trong nghề BĐS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+/* Bố cục: một cột đọc như sổ tay phỏng vấn; thanh chọn câu cố định ở đáy. Màu lấy theo trang khảo sát (xanh GĐ1, cam GĐ2). */
+:root {
+  --bg: #F3F4EF;
+  --surface: #FFFFFF;
+  --ink: #18201C;
+  --muted: #5B655F;
+  --line: #DCE0D8;
+  --accent: #1E7A5E;
+  --accent-soft: #E1F0E9;
+  --accent-ink: #165E48;
+  --warm: #C2410C;
+  --warm-soft: #FBE9DF;
+  --on-accent: #FFFFFF;
+  --font: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111513; --surface: #1A201D; --ink: #E8ECE9; --muted: #9AA5A0; --line: #2C3531;
+    --accent: #5CC9A3; --accent-soft: #1D3A30; --accent-ink: #8FE0C2; --warm: #FB923C; --warm-soft: #3A2416;
+    --on-accent: #0E1512; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111513; --surface: #1A201D; --ink: #E8ECE9; --muted: #9AA5A0; --line: #2C3531;
+  --accent: #5CC9A3; --accent-soft: #1D3A30; --accent-ink: #8FE0C2; --warm: #FB923C; --warm-soft: #3A2416;
+  --on-accent: #0E1512; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 calc(96px + env(safe-area-inset-bottom, 0px));
+}
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 40px; padding-block: 40px 24px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.25; margin: 0; }
+h1 { font-size: clamp(28px, 6vw, 40px); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 22px; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); }
+.lead { color: var(--muted); max-width: 62ch; }
+.muted { color: var(--muted); }
+section { display: grid; gap: 16px; }
+.sec-head { display: grid; gap: 6px; }
+
+/* Kịch bản: thanh chia theo đúng tỉ lệ thời gian */
+.script { display: grid; gap: 10px; }
+.bar { display: flex; height: 10px; border-radius: 99px; overflow: hidden; gap: 3px; }
+.bar span { display: block; }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.step { display: grid; gap: 2px; font-size: 14px; }
+.step b { font-size: 15px; }
+.step .t { font-variant-numeric: tabular-nums; color: var(--muted); }
+.sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 1px; }
+@media (max-width: 560px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.howto { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.howto li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+.howto li::before { content: "→"; color: var(--accent); font-weight: 700; }
+
+.checklist { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.checklist li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+.checklist li::before { content: ""; width: 14px; height: 14px; margin-top: 5px; border: 2px solid var(--line); border-radius: 4px; }
+
+/* Bộ lọc */
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip {
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--surface);
+  border: 1.5px solid var(--line); border-radius: 99px; padding: 6px 14px; cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.chip:focus-visible, .btn:focus-visible, .q input:focus-visible + .box, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* Nhóm câu hỏi */
+.topic { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+.topic-head { display: grid; gap: 4px; }
+.topic-head .tag { font-size: 12px; font-weight: 600; color: var(--muted); }
+.topic-note { font-size: 14px; color: var(--warm); background: var(--warm-soft); border-radius: 8px; padding: 8px 12px; }
+.qs { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.q label { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; padding: 8px; margin: 0 -8px; border-radius: 10px; cursor: pointer; }
+.q label:hover { background: var(--accent-soft); }
+.q input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.box { width: 20px; height: 20px; margin-top: 3px; border: 2px solid var(--muted); border-radius: 6px; display: grid; place-items: center; }
+.q input:checked + .box { background: var(--accent); border-color: var(--accent); }
+.q input:checked + .box::after { content: ""; width: 9px; height: 5px; border: solid var(--on-accent); border-width: 0 0 2.5px 2.5px; transform: translateY(-1px) rotate(-45deg); }
+.qt { display: grid; gap: 4px; min-width: 0; }
+.core { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent-ink); background: var(--accent-soft); border-radius: 6px; padding: 1px 7px; margin-right: 6px; vertical-align: 2px; }
+.sub { font-size: 14px; color: var(--muted); }
+.sub b { font-weight: 600; }
+body.core-only .q:not(.is-core) { display: none; }
+
+.grid-topics { display: grid; gap: 14px; }
+.pillar { display: grid; gap: 6px; padding-top: 4px; }
+.pillar:not(:first-child) { padding-top: 24px; }
+.pillar-head { display: flex; gap: 12px; align-items: baseline; }
+.pnum { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+.ptitle { font-size: 20px; }
+.pen { font-size: 13px; font-style: italic; color: var(--muted); }
+.callout { border-left: 3px solid var(--warm); padding: 4px 0 4px 14px; display: grid; gap: 6px; }
+
+textarea {
+  font: inherit; font-size: 15px; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: 10px; padding: 12px; width: 100%; min-height: 120px; resize: vertical;
+}
+
+.tips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.tip { display: grid; gap: 4px; }
+.tip b { color: var(--accent-ink); }
+@media (max-width: 560px) { .tips { grid-template-columns: 1fr; } }
+
+/* Thanh dưới */
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: var(--surface); border-top: 1px solid var(--line);
+  padding-top: 12px; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.dock-in { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; align-items: center; }
+.count { font-weight: 600; margin-right: auto; min-width: 0; font-size: 15px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.dock .btn { flex: none; padding: 9px 14px; }
+.btn { font: inherit; font-size: 15px; font-weight: 600; border-radius: 10px; padding: 9px 16px; cursor: pointer; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); }
+.btn:hover { border-color: var(--accent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.fallback { display: grid; gap: 8px; }
+.fallback textarea { min-height: 200px; font-size: 13px; }
+footer.wrap { padding-block: 0; }
+@media (prefers-reduced-motion: no-preference) { .chip, .btn, .q label { transition: background-color .15s, border-color .15s; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="sec-head" style="gap: 14px;">
+    <p class="eyebrow">REC · Chuỗi chia sẻ từ người trong nghề</p>
+    <h1>Bộ câu hỏi phỏng vấn người trong ngành BĐS</h1>
+    <p class="lead">Dùng cho buổi phỏng vấn 1-1 (gặp trực tiếp hoặc gọi video) với một anh/chị đang đi làm. Các chủ đề bám theo những gì sinh viên muốn biết ở câu C10 của khảo sát. Phần theo vị trí dùng đúng danh sách của câu C9. Bộ câu hỏi đi theo ba câu hỏi lớn: bạn là ai, bạn muốn gì, và làm sao để đạt được.</p>
+  </header>
+
+  <section aria-labelledby="h-script" class="script">
+    <div class="sec-head">
+      <h2 id="h-script">Kịch bản khoảng 45 phút</h2>
+    </div>
+    <div class="bar" aria-hidden="true">
+      <span style="flex:5; background: var(--muted);"></span>
+      <span style="flex:20; background: var(--accent);"></span>
+      <span style="flex:15; background: var(--warm);"></span>
+      <span style="flex:5; background: var(--muted);"></span>
+    </div>
+    <div class="steps">
+      <div class="step"><b><i class="sw" style="background: var(--muted);"></i>Mở đầu</b><span class="t">5 phút</span><span class="muted">Làm quen, xin phép ghi âm</span></div>
+      <div class="step"><b><i class="sw" style="background: var(--accent);"></i>Chủ đề chung</b><span class="t">20 phút</span><span class="muted">Mỗi câu hỏi lớn chọn 1–2 chủ đề</span></div>
+      <div class="step"><b><i class="sw" style="background: var(--warm);"></i>Theo vị trí</b><span class="t">15 phút</span><span class="muted">Câu riêng cho nghề của anh/chị</span></div>
+      <div class="step"><b><i class="sw" style="background: var(--muted);"></i>Kết thúc</b><span class="t">5 phút</span><span class="muted">Lời khuyên, cảm ơn</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-how">
+    <h2 id="h-how">Cách dùng trang này</h2>
+    <ul class="howto">
+      <li><span>Không cần hỏi hết. Mỗi chủ đề có một <span class="core">Câu chính</span> nên hỏi; các câu còn lại để chọn thêm tuỳ thời gian.</span></li>
+      <li><span>Bấm vào câu hỏi để chọn. Chọn xong, bấm <b>Sao chép</b> ở thanh dưới cùng để dán vào ghi chú, Google Docs hoặc tin nhắn gửi trước cho anh/chị.</span></li>
+      <li><span>Dòng <b>Hỏi sâu</b> là câu gợi để hỏi tiếp khi câu trả lời còn chung chung.</span></li>
+      <li><span>Lựa chọn của bạn được lưu trên máy này. Người khác mở link sẽ thấy trang trống, chưa chọn câu nào.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-before">
+    <h2 id="h-before">Trước buổi phỏng vấn</h2>
+    <ul class="checklist">
+      <li><span>Gửi trước cho anh/chị 3–4 chủ đề chính và thời lượng dự kiến, để anh/chị chuẩn bị ví dụ.</span></li>
+      <li><span>Hỏi anh/chị muốn để tên thật, chỉ để chức danh, hay ẩn danh khi đăng nội dung. Hỏi luôn có được nêu tên công ty không.</span></li>
+      <li><span>Xin phép ghi âm hoặc ghi hình, và nói rõ bản ghi dùng để làm gì.</span></li>
+      <li><span>Mở Google Sheet khảo sát, xem câu C10 được chọn nhiều nhất ở những khía cạnh nào để ưu tiên chủ đề đó.</span></li>
+      <li><span>Chép 2–3 câu hỏi của các bạn sinh viên ở cột <b>C8 – &lt;vị trí của anh/chị&gt;</b> vào ô "Câu hỏi thêm" ở cuối trang.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-open" id="sec-open"></section>
+
+  <section aria-labelledby="h-general">
+    <div class="sec-head">
+      <p class="eyebrow">20 phút</p>
+      <h2 id="h-general">Chủ đề chung theo 3 câu hỏi lớn</h2>
+      <p class="muted">Hỏi được với anh/chị ở mọi vị trí. Nên đi theo thứ tự: hiểu mình là ai, biết mình muốn gì, rồi mới đến cách đạt được. Thay vì hỏi "công ty nào tốt nhất", các câu hỏi giúp sinh viên tìm ra tiêu chí hợp với chính mình. Chủ đề ghi "Khía cạnh ở câu C10" là điều sinh viên muốn biết trong khảo sát.</p>
+    </div>
+    <div class="tools">
+      <button type="button" class="chip" id="coreOnly" aria-pressed="false">Chỉ hiện câu chính</button>
+      <button type="button" class="chip" id="pickCore">Chọn nhanh tất cả câu chính</button>
+    </div>
+    <div class="grid-topics" id="general"></div>
+  </section>
+
+  <section aria-labelledby="h-roles">
+    <div class="sec-head">
+      <p class="eyebrow">15 phút</p>
+      <h2 id="h-roles">Câu hỏi theo vị trí</h2>
+      <p class="muted">Chọn vị trí của anh/chị bạn sắp phỏng vấn.</p>
+    </div>
+    <div class="tools" id="roleChips" role="group" aria-label="Lọc theo vị trí"></div>
+    <div class="callout">
+      <p><b>Vị trí "Khác"</b>: dùng phần chủ đề chung, rồi lấy câu hỏi ở vị trí gần nhất làm mẫu. Ví dụ, người làm tư vấn cho thuê văn phòng có thể dùng câu của Môi giới và Quản lý vận hành.</p>
+    </div>
+    <div class="grid-topics" id="roles"></div>
+  </section>
+
+  <section aria-labelledby="h-close" id="sec-close"></section>
+
+  <section aria-labelledby="h-extra">
+    <div class="sec-head">
+      <h2 id="h-extra">Câu hỏi thêm</h2>
+      <p class="muted">Dán câu hỏi của các bạn sinh viên từ cột C8 trong Google Sheet, mỗi dòng một câu. Phần này cũng được sao chép cùng các câu đã chọn.</p>
+    </div>
+    <label for="extra" class="muted" style="font-size:14px;">Câu hỏi thêm cho buổi này</label>
+    <textarea id="extra" placeholder="Ví dụ: Sinh viên chưa có kinh nghiệm thì nên apply vị trí nào trước?"></textarea>
+  </section>
+
+  <section aria-labelledby="h-tips">
+    <h2 id="h-tips">Mẹo khi hỏi</h2>
+    <div class="tips">
+      <div class="tip"><b>Xin một ví dụ cụ thể</b><p>"Anh/chị kể một lần gần đây được không?" thường cho câu trả lời thật hơn "Thường thì công việc thế nào?".</p></div>
+      <div class="tip"><b>Chờ thêm vài giây</b><p>Khi anh/chị ngừng nói, đợi khoảng 3 giây rồi mới hỏi tiếp. Nhiều ý hay đến ở đoạn này.</p></div>
+      <div class="tip"><b>Mỗi lần một câu</b><p>Đừng gộp hai câu vào một lượt hỏi. Anh/chị thường chỉ trả lời vế sau.</p></div>
+      <div class="tip"><b>Hỏi tiêu chí, không hỏi xếp hạng</b><p>Tránh hỏi "công ty nào tốt nhất". Hỏi "anh/chị chọn dựa trên điều gì" để người nghe tự áp vào hoàn cảnh của mình.</p></div>
+      <div class="tip"><b>Nhắc lại để kiểm tra</b><p>"Ý anh/chị là… đúng không?" giúp bạn trích dẫn đúng khi viết bài. Đánh dấu thời điểm trong bản ghi âm khi anh/chị nói một câu đáng trích.</p></div>
+      <div class="tip"><b>Tôn trọng câu "không tiện nói"</b><p>Nhất là về thu nhập và công ty. Cảm ơn rồi chuyển sang câu khác.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-after">
+    <h2 id="h-after">Sau buổi phỏng vấn</h2>
+    <ul class="checklist">
+      <li><span>Nhắn cảm ơn anh/chị trong ngày.</span></li>
+      <li><span>Gửi bản nháp nội dung (bài viết, trích dẫn, video) để anh/chị xem lại trước khi đăng.</span></li>
+      <li><span>Ghi lại câu hỏi nào hiệu quả, câu nào khó trả lời, để sửa bộ câu hỏi cho buổi sau.</span></li>
+    </ul>
+  </section>
+</main>
+
+<div class="wrap" id="fallbackWrap" hidden>
+  <div class="fallback">
+    <p><b>Không sao chép tự động được.</b> Văn bản đã được bôi đen bên dưới, bạn nhấn giữ hoặc Ctrl/⌘ + C để sao chép.</p>
+    <textarea id="fallbackText" readonly></textarea>
+  </div>
+</div>
+
+<div class="dock">
+  <div class="dock-in">
+    <span class="count" id="count" aria-live="polite">Chưa chọn câu nào</span>
+    <button type="button" class="btn" id="clear" disabled>Bỏ chọn</button>
+    <button type="button" class="btn btn-primary" id="copy" disabled>Sao chép</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Mỗi câu: t = câu hỏi, core = câu chính, sub = gợi hỏi sâu */
+  const OPEN = {
+    id: "mo-dau", title: "Mở đầu: làm quen", eyebrow: "5 phút",
+    qs: [
+      { t: "Anh/chị giới thiệu ngắn giúp em: đang làm vị trí gì, ở loại công ty nào (chủ đầu tư, sàn giao dịch, công ty tư vấn, quỹ đầu tư, ngân hàng…), và làm được bao lâu rồi?", core: true },
+      { t: "Hồi còn là sinh viên, anh/chị có nghĩ mình sẽ làm công việc này không? Điều gì đưa anh/chị đến với nó?", core: true,
+        sub: "Có một người hay một sự kiện nào làm anh/chị đổi hướng không?" },
+      { t: "Nếu phải giải thích công việc của mình cho một bạn năm nhất trong một câu, anh/chị sẽ nói gì?" },
+    ],
+  };
+
+  /* Ba câu hỏi lớn: know who you are, what you want, how you could get it.
+     topics là id của các chủ đề trong GENERAL, theo đúng thứ tự hiển thị. */
+  const PILLARS = [
+    { title: "Bạn là ai?", en: "Know who you are", topics: ["hanh-trinh", "ai-hop", "ap-luc"],
+      intro: "Anh/chị đã hiểu bản thân thế nào trước khi chọn nghề, và nghề này hợp với kiểu người nào." },
+    { title: "Bạn muốn gì?", en: "What do you want", topics: ["lua-chon", "hang-ngay", "thu-nhap", "can-bang"],
+      intro: "Anh/chị đã ưu tiên và đánh đổi điều gì, và công việc thực sự mang lại những gì." },
+    { title: "Làm sao để đạt được?", en: "How could you get it", topics: ["ky-nang", "bat-dau", "lo-trinh"],
+      intro: "Kỹ năng, bước đầu tiên và con đường đi tiếp, sau khi đã biết mình là ai và muốn gì." },
+  ];
+
+  /* own: chủ đề về hành trình riêng của anh/chị (không thuộc câu C10) */
+  const GENERAL = [
+    { id: "hanh-trinh", own: true, title: "Anh/chị đã hiểu bản thân như thế nào", qs: [
+      { t: "Anh/chị nhận ra mình hợp với công việc này vào lúc nào? Điều gì cho anh/chị biết điều đó?", core: true,
+        sub: "Có dấu hiệu nào sinh viên có thể tự để ý ở bản thân không?" },
+      { t: "Trước khi chọn nghề, anh/chị đã thử những gì để biết điểm mạnh, điểm yếu của mình?" },
+      { t: "Đã có lúc anh/chị đi sai hướng chưa? Anh/chị nhận ra bằng cách nào và đã làm gì sau đó?" },
+      { t: "Ngoài thu nhập, điều gì ở công việc khiến anh/chị có động lực nhất?" },
+    ]},
+    { id: "lua-chon", own: true, title: "Anh/chị đã chọn điều mình muốn như thế nào", qs: [
+      { t: "Khi chọn công việc đầu tiên, anh/chị ưu tiên điều gì nhất: được học nhiều, thu nhập, môi trường hay con người? Nhìn lại bây giờ, anh/chị có chọn khác không?", core: true },
+      { t: "Để có công việc hiện tại, anh/chị đã phải đánh đổi những gì?" },
+      { t: "Mục tiêu nghề nghiệp của anh/chị đã thay đổi thế nào từ lúc ra trường đến nay?" },
+    ]},
+    { id: "hang-ngay", title: "Công việc cụ thể hằng ngày", qs: [
+      { t: "Một ngày làm việc bình thường của anh/chị bắt đầu và kết thúc thế nào? Thời gian chia cho những việc gì?", core: true,
+        sub: "Anh/chị kể lại tuần vừa rồi được không?" },
+      { t: "Việc nào chiếm nhiều thời gian nhất mà người ngoài ngành ít biết?" },
+      { t: "Anh/chị làm việc với những ai, trong công ty và bên ngoài?" },
+      { t: "Kết quả cuối cùng của công việc là gì: một báo cáo, một hợp đồng, một dự án mở bán, hay một toà nhà vận hành ổn định?" },
+    ]},
+    { id: "ky-nang", title: "Kỹ năng và kiến thức cần có", qs: [
+      { t: "Ba kỹ năng quan trọng nhất cho vị trí của anh/chị là gì? Cái nào học được ở trường, cái nào phải học khi đi làm?", core: true },
+      { t: "Môn học nào ở trường anh/chị thấy dùng nhiều nhất? Môn nào anh/chị ước đã học kỹ hơn?" },
+      { t: "Hằng ngày anh/chị dùng những công cụ, phần mềm nào? Người mới cần thành thạo đến mức nào?" },
+      { t: "Có chứng chỉ nào thực sự giúp ích cho công việc không? Nên học lúc còn đi học hay sau khi đi làm?" },
+      { t: "Tiếng Anh cần ở mức nào, và dùng vào việc gì?" },
+      { t: "Nếu một bạn năm 2 có 6 tháng rảnh, anh/chị khuyên bạn ấy nên học gì trước?" },
+    ]},
+    { id: "bat-dau", title: "Cách bắt đầu vào nghề", qs: [
+      { t: "Công việc hoặc kỳ thực tập đầu tiên của anh/chị là gì? Anh/chị tìm được bằng cách nào?", core: true,
+        sub: "Lúc đó anh/chị đã chuẩn bị những gì?" },
+      { t: "Khi xem CV của thực tập sinh hoặc người mới ra trường, anh/chị nhìn vào điều gì đầu tiên?" },
+      { t: "Lỗi nào sinh viên hay mắc khi nộp hồ sơ hoặc đi phỏng vấn?" },
+      { t: "Thay vì hỏi công ty nào tốt nhất, sinh viên nên dùng những tiêu chí nào để chọn nơi thực tập hay làm việc đầu tiên cho hợp với mình?",
+        sub: "Một bạn thích được hướng dẫn bài bản và một bạn thích tự xoay xở thì mỗi bạn hợp với môi trường nào hơn?" },
+      { t: "Sinh viên có nên chủ động nhắn tin cho người trong ngành (qua LinkedIn, Facebook) để xin lời khuyên không? Nên viết thế nào để được trả lời?" },
+    ]},
+    { id: "lo-trinh", title: "Lộ trình thăng tiến 3–5 năm", qs: [
+      { t: "Từ lúc mới vào đến vị trí hiện tại, anh/chị đã qua những nấc nào và mất bao lâu?", core: true },
+      { t: "Những người thăng tiến nhanh trong nghề này thường có điểm gì chung?" },
+      { t: "Từ vị trí của anh/chị, người ta thường chuyển sang những hướng nào khác?" },
+      { t: "Lúc thị trường đi xuống, lộ trình của người trong nghề bị ảnh hưởng thế nào? Anh/chị đã trải qua giai đoạn đó ra sao?" },
+      { t: "Có điều gì anh/chị ước mình biết sớm hơn trong 1–2 năm đầu đi làm?" },
+    ]},
+    { id: "thu-nhap", title: "Thu nhập và cách tính thu nhập",
+      note: "Chỉ hỏi về cơ cấu và mức phổ biến trên thị trường, không hỏi lương của riêng anh/chị. Anh/chị có thể không trả lời.",
+      qs: [
+      { t: "Thu nhập ở vị trí này thường gồm những phần nào: lương cố định, hoa hồng, thưởng theo dự án hay thưởng cuối năm?", core: true },
+      { t: "Với người mới ra trường, mức thu nhập phổ biến trên thị trường cho vị trí này khoảng bao nhiêu?" },
+      { t: "Khi thị trường trầm lắng, thu nhập thay đổi ra sao?" },
+      { t: "Sau 3–5 năm, thu nhập giữa người làm tốt và người làm bình thường chênh nhau nhiều không? Điều gì tạo ra khoảng cách đó?" },
+    ]},
+    { id: "ap-luc", title: "Áp lực, mặt khó của công việc", qs: [
+      { t: "Điều khó nhất của công việc này mà sinh viên thường không hình dung được là gì?", core: true },
+      { t: "Áp lực chủ yếu đến từ đâu: chỉ tiêu (KPI), khách hàng, hạn chót, hay vấn đề pháp lý?" },
+      { t: "Đã có lúc nào anh/chị muốn bỏ nghề chưa? Điều gì giữ anh/chị ở lại?",
+        sub: "Anh/chị đã vượt qua giai đoạn đó bằng cách nào?" },
+      { t: "Anh/chị làm gì để xả áp lực sau những ngày căng thẳng?" },
+    ]},
+    { id: "can-bang", title: "Cân bằng công việc và cuộc sống", qs: [
+      { t: "Mỗi tuần anh/chị thực sự làm bao nhiêu giờ? Có thường làm cuối tuần hay ngày lễ không?", core: true },
+      { t: "Trong năm có giai đoạn cao điểm nào không (mở bán, cuối quý, chốt báo cáo)?" },
+      { t: "Anh/chị giữ thời gian cho gia đình, sức khoẻ và bản thân bằng cách nào?" },
+    ]},
+    { id: "ai-hop", title: "Ai hợp và ai không hợp với nghề này", qs: [
+      { t: "Kiểu người nào sẽ thấy vui khi làm công việc này? Kiểu người nào nên cân nhắc kỹ trước khi chọn?", core: true },
+      { t: "Có tính cách nào nghe tưởng không hợp, nhưng thực ra lại làm tốt không?" },
+      { t: "Sinh viên có thể thử trải nghiệm nghề này trước bằng cách nào: một dự án nhỏ, cuộc thi, thực tập ngắn hạn hay đi theo một anh/chị vài ngày?" },
+    ]},
+  ];
+
+  const ROLES = [
+    { id: "moi-gioi", title: "Môi giới/kinh doanh", qs: [
+      { t: "Anh/chị tìm được khách hàng đầu tiên như thế nào? Bây giờ nguồn khách chủ yếu đến từ đâu?", core: true },
+      { t: "Những tháng đầu chưa có giao dịch nào, người mới nên làm gì để trụ lại?", core: true },
+      { t: "Làm ở sàn phân phối, làm trực tiếp cho chủ đầu tư, và môi giới nhà đất thứ cấp khác nhau thế nào? Mỗi môi trường hợp với kiểu người nào?" },
+      { t: "Khi chịu áp lực doanh số, anh/chị giữ uy tín với khách hàng bằng cách nào?" },
+      { t: "Chứng chỉ hành nghề môi giới: cần có từ khi nào, học và thi ở đâu?" },
+    ]},
+    { id: "nghien-cuu", title: "Nghiên cứu thị trường", qs: [
+      { t: "Một báo cáo thị trường được làm ra như thế nào, từ lúc thu thập dữ liệu đến lúc đưa ra nhận định?", core: true },
+      { t: "Dữ liệu lấy từ những nguồn nào? Anh/chị kiểm tra độ tin cậy của dữ liệu ra sao?", core: true },
+      { t: "Ai là người dùng báo cáo của anh/chị, và họ dùng nó để quyết định điều gì?" },
+      { t: "Đi khảo sát thực địa chiếm bao nhiêu phần trong công việc?" },
+      { t: "Sinh viên có thể tự luyện bằng cách nào, ví dụ tự làm một báo cáo nhỏ về một khu vực?" },
+    ]},
+    { id: "tham-dinh", title: "Thẩm định giá", qs: [
+      { t: "Một hồ sơ thẩm định đi qua những bước nào và thường mất bao lâu?", core: true },
+      { t: "Phương pháp nào anh/chị dùng nhiều nhất (so sánh, thu nhập, chi phí…), và với loại tài sản nào?", core: true },
+      { t: "Khi khách hàng mong kết quả cao hơn hoặc thấp hơn con số anh/chị đưa ra, anh/chị xử lý thế nào?" },
+      { t: "Con đường để trở thành thẩm định viên về giá gồm những bước nào?" },
+      { t: "Làm ở công ty thẩm định độc lập khác với làm thẩm định trong ngân hàng ra sao? Mỗi nơi hợp với người muốn điều gì?" },
+    ]},
+    { id: "phat-trien", title: "Phát triển dự án", qs: [
+      { t: "Một dự án đi từ ý tưởng đến lúc mở bán qua những giai đoạn nào? Anh/chị tham gia ở khâu nào?", core: true },
+      { t: "Khi xem một khu đất, anh/chị dựa vào những gì để quyết định có nên làm dự án hay không?", core: true },
+      { t: "Anh/chị phối hợp với những bên nào: kiến trúc sư, pháp lý, tài chính, cơ quan nhà nước…?" },
+      { t: "Điều gì thường khiến dự án chậm tiến độ?" },
+      { t: "Người mới vào bộ phận phát triển dự án thường được giao việc gì đầu tiên?" },
+    ]},
+    { id: "dau-tu", title: "Phân tích đầu tư", qs: [
+      { t: "Một thương vụ đi từ lúc nhận hồ sơ đến lúc ra quyết định đầu tư như thế nào?", core: true },
+      { t: "Mô hình tài chính của một dự án gồm những phần chính nào? Anh/chị nhìn chỉ số nào đầu tiên?", core: true },
+      { t: "Người mới vào cần giỏi Excel và mô hình tài chính đến mức nào?" },
+      { t: "Anh/chị có thể kể một thương vụ mình khuyên không nên làm và vì sao không? (Không cần nêu tên)" },
+      { t: "Làm phân tích đầu tư ở quỹ, ở chủ đầu tư và ở công ty tư vấn khác nhau thế nào? Anh/chị đã chọn nơi làm dựa trên tiêu chí gì?" },
+    ]},
+    { id: "quan-ly-da", title: "Quản lý dự án", qs: [
+      { t: "Anh/chị theo dõi tiến độ, chi phí và chất lượng của dự án bằng cách nào?", core: true },
+      { t: "Cần nền tảng kỹ thuật xây dựng đến mức nào? Sinh viên ngành BĐS có lợi thế hay bất lợi gì so với sinh viên kỹ thuật?", core: true },
+      { t: "Anh/chị có phải ra công trường thường xuyên không?" },
+      { t: "Khi nhà thầu chậm tiến độ hoặc phát sinh chi phí, anh/chị xử lý ra sao?" },
+      { t: "Quản lý dự án và phát triển dự án khác nhau ở đâu?" },
+    ]},
+    { id: "van-hanh", title: "Quản lý vận hành tài sản/tòa nhà", qs: [
+      { t: "Một ngày của người quản lý vận hành tòa nhà gồm những việc gì?", core: true },
+      { t: "Anh/chị xử lý khiếu nại của cư dân hoặc khách thuê thế nào? Tình huống nào khó nhất anh/chị từng gặp?", core: true },
+      { t: "Hiệu quả vận hành được đánh giá bằng những chỉ số nào (tỷ lệ lấp đầy, chi phí vận hành, mức hài lòng…)?" },
+      { t: "Vận hành chung cư, văn phòng và trung tâm thương mại khác nhau thế nào?" },
+      { t: "Công việc có phải trực ngoài giờ hay xử lý sự cố ban đêm không?" },
+    ]},
+    { id: "marketing", title: "Marketing BĐS", qs: [
+      { t: "Marketing bất động sản khác marketing hàng tiêu dùng ở điểm nào?", core: true },
+      { t: "Một chiến dịch mở bán dự án gồm những hoạt động gì và được chuẩn bị trước bao lâu?", core: true },
+      { t: "Anh/chị đo hiệu quả chiến dịch bằng những chỉ số nào?" },
+      { t: "Người làm marketing cần hiểu sản phẩm và pháp lý dự án đến đâu để không truyền thông sai?" },
+      { t: "Sinh viên muốn apply nên chuẩn bị portfolio hoặc sản phẩm gì?" },
+    ]},
+    { id: "phap-ly", title: "Pháp lý dự án", qs: [
+      { t: "Một dự án cần những hồ sơ, giấy phép chính nào? Anh/chị phụ trách khâu nào?", core: true },
+      { t: "Có cần bằng Luật không, hay sinh viên ngành BĐS cũng làm được? Nếu được thì cần học thêm gì?", core: true },
+      { t: "Khi luật và quy định thay đổi, anh/chị cập nhật bằng cách nào?" },
+      { t: "Vướng mắc pháp lý nào hay gặp nhất ở các dự án?" },
+      { t: "Làm việc với cơ quan nhà nước đòi hỏi những kỹ năng gì?" },
+    ]},
+    { id: "mat-bang", title: "Phát triển mặt bằng cho chuỗi bán lẻ (site developer)", qs: [
+      { t: "Anh/chị dựa vào những tiêu chí nào để đánh giá một mặt bằng tốt (lượng người qua lại, đối thủ xung quanh, giá thuê…)?", core: true },
+      { t: "Một mặt bằng đi từ lúc tìm thấy đến lúc cửa hàng khai trương qua những bước nào, mất bao lâu?", core: true },
+      { t: "Anh/chị đàm phán với chủ nhà như thế nào? Điều khoản nào quan trọng nhất trong hợp đồng thuê?" },
+      { t: "Anh/chị đi thực địa nhiều không? Mỗi người thường phụ trách khu vực rộng bao nhiêu?" },
+      { t: "Sinh viên ngành BĐS mang lợi thế gì vào vị trí này, và cần học thêm điều gì?" },
+    ]},
+  ];
+
+  const CLOSE = {
+    id: "ket-thuc", title: "Kết thúc", eyebrow: "5 phút",
+    qs: [
+      { t: "Nếu được nói một câu với chính mình hồi năm 2 đại học, anh/chị sẽ nói gì?", core: true },
+      { t: "Trước khi hỏi \"nên làm ở đâu\", theo anh/chị một bạn sinh viên nên tự trả lời được những câu hỏi nào về bản thân?", core: true },
+      { t: "Anh/chị có gợi ý sách, trang tin, kênh hay khoá học nào cho sinh viên muốn theo nghề này không?" },
+      { t: "Anh/chị có thể giới thiệu thêm một người để REC phỏng vấn tiếp không?" },
+      { t: "Trong những gì anh/chị vừa chia sẻ, có phần nào anh/chị không muốn đăng lên không?", core: true },
+    ],
+  };
+
+  const KEY = "rec-bo-cau-hoi-v2";
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } },
+    set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* bỏ qua */ } },
+  };
+  const saved = store.get();
+  const picked = new Set(saved.picked || []);
+  const all = []; // [{ key, section, q }]
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  function list(sec) {
+    return '<ul class="qs">' + sec.qs.map((q, i) => {
+      const key = sec.id + "-" + i;
+      all.push({ key, section: sec.title, q });
+      return `<li class="q${q.core ? " is-core" : ""}"><label>` +
+        `<input type="checkbox" id="q-${key}" data-key="${key}"${picked.has(key) ? " checked" : ""}><span class="box" aria-hidden="true"></span>` +
+        `<span class="qt"><span>${q.core ? '<span class="core">Câu chính</span>' : ""}${esc(q.t)}</span>` +
+        (q.sub ? `<span class="sub"><b>Hỏi sâu:</b> ${esc(q.sub)}</span>` : "") + "</span></label></li>";
+    }).join("") + "</ul>";
+  }
+
+  function card(sec, tag) {
+    return `<article class="topic" id="t-${sec.id}" data-role="${sec.id}"><div class="topic-head">` +
+      (tag ? `<span class="tag">${tag}</span>` : "") + `<h3>${esc(sec.title)}</h3></div>` +
+      (sec.note ? `<p class="topic-note">${esc(sec.note)}</p>` : "") + list(sec) + "</article>";
+  }
+
+  function plain(sec, el, headingId) {
+    el.innerHTML = `<div class="sec-head"><p class="eyebrow">${sec.eyebrow}</p><h2 id="${headingId}">${esc(sec.title)}</h2></div>` +
+      `<div class="topic">${list(sec)}</div>`;
+  }
+
+  plain(OPEN, document.getElementById("sec-open"), "h-open");
+  document.getElementById("general").innerHTML = PILLARS.map((p, i) =>
+    `<div class="pillar"><div class="pillar-head"><span class="pnum">${i + 1}/3</span>` +
+    `<div><h3 class="ptitle">${esc(p.title)}</h3><p class="pen">${p.en}</p></div></div>` +
+    `<p class="muted">${esc(p.intro)}</p></div>` +
+    p.topics.map((id) => {
+      const s = GENERAL.find((g) => g.id === id);
+      return card(s, s.own ? "Hành trình của anh/chị" : "Khía cạnh ở câu C10");
+    }).join("")).join("");
+  document.getElementById("roles").innerHTML = ROLES.map((s) => card(s)).join("");
+  plain(CLOSE, document.getElementById("sec-close"), "h-close");
+
+  // Lọc vị trí
+  const chips = document.getElementById("roleChips");
+  chips.innerHTML = '<button type="button" class="chip" data-role="" aria-pressed="true">Tất cả vị trí</button>' +
+    ROLES.map((r) => `<button type="button" class="chip" data-role="${r.id}" aria-pressed="false">${esc(r.title.replace(/ \(site developer\)$/, ""))}</button>`).join("");
+  function setRole(id) {
+    chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.role === id)));
+    document.querySelectorAll("#roles .topic").forEach((t) => { t.hidden = !!id && t.dataset.role !== id; });
+    saved.role = id; persist();
+  }
+  chips.addEventListener("click", (e) => { const c = e.target.closest(".chip"); if (c) setRole(c.dataset.role); });
+
+  // Chỉ hiện câu chính
+  const coreBtn = document.getElementById("coreOnly");
+  function setCoreOnly(on) {
+    document.body.classList.toggle("core-only", on);
+    coreBtn.setAttribute("aria-pressed", String(on));
+    saved.coreOnly = on; persist();
+  }
+  coreBtn.addEventListener("click", () => setCoreOnly(coreBtn.getAttribute("aria-pressed") !== "true"));
+
+  document.getElementById("pickCore").addEventListener("click", () => {
+    all.forEach(({ key, q }) => {
+      if (!q.core) return;
+      const box = document.getElementById("q-" + key);
+      if (box.closest(".topic").hidden) return;
+      picked.add(key); box.checked = true;
+    });
+    update();
+  });
+
+  // Chọn câu
+  document.addEventListener("change", (e) => {
+    const k = e.target.dataset && e.target.dataset.key;
+    if (!k) return;
+    if (e.target.checked) picked.add(k); else picked.delete(k);
+    update();
+  });
+
+  const extra = document.getElementById("extra");
+  extra.value = saved.extra || "";
+  extra.addEventListener("input", () => { saved.extra = extra.value; persist(); update(); });
+
+  const countEl = document.getElementById("count");
+  const copyBtn = document.getElementById("copy");
+  const clearBtn = document.getElementById("clear");
+
+  function extraLines() { return extra.value.split("\n").map((s) => s.trim()).filter(Boolean); }
+
+  function update() {
+    const n = picked.size;
+    const x = extraLines().length;
+    countEl.textContent = n ? `Đã chọn ${n} câu` + (x ? ` + ${x} câu thêm` : "") : (x ? `${x} câu thêm` : "Chưa chọn câu nào");
+    copyBtn.disabled = !n && !x;
+    clearBtn.disabled = !n;
+    saved.picked = [...picked]; persist();
+  }
+
+  function persist() { store.set(saved); }
+
+  function buildText() {
+    const lines = ["BỘ CÂU HỎI PHỎNG VẤN – REC", ""];
+    let current = null, num = 0;
+    all.forEach(({ key, section, q }) => {
+      if (!picked.has(key)) return;
+      if (section !== current) {
+        if (current) lines.push("");
+        lines.push(section.toUpperCase());
+        current = section;
+      }
+      num++;
+      lines.push(num + ". " + q.t);
+      if (q.sub) lines.push("   Hỏi sâu: " + q.sub);
+    });
+    const x = extraLines();
+    if (x.length) {
+      if (current) lines.push("");
+      lines.push("CÂU HỎI THÊM (TỪ KHẢO SÁT)");
+      x.forEach((t) => { num++; lines.push(num + ". " + t); });
+    }
+    return lines.join("\n");
+  }
+
+  copyBtn.addEventListener("click", () => {
+    const text = buildText();
+    const done = () => { copyBtn.textContent = "Đã sao chép"; setTimeout(() => { copyBtn.textContent = "Sao chép"; }, 1800); };
+    const fail = () => {
+      const wrap = document.getElementById("fallbackWrap");
+      const ta = document.getElementById("fallbackText");
+      ta.value = text; wrap.hidden = false;
+      wrap.scrollIntoView({ block: "center" }); ta.focus(); ta.select();
+    };
+    try {
+      navigator.clipboard.writeText(text).then(done, fail);
+    } catch (e) { fail(); }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    picked.clear();
+    document.querySelectorAll(".q input:checked").forEach((b) => { b.checked = false; });
+    update();
+  });
+
+  if (saved.role && ROLES.some((r) => r.id === saved.role)) setRole(saved.role);
+  if (saved.coreOnly) setCoreOnly(true);
+  update();
+})();
+</script>
+</body>
+</html>
